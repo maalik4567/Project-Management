@@ -1,0 +1,97 @@
+﻿@model GroupMeetingASP.NETCoreWebApp.Models.GroupMeeting
+@{
+    ViewData["Title"] = "AddGroupMeeting";
+}
+
+<h2>Add GroupMeeting</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form id="addGroupMeetingForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group m-3">
+                <label asp-for="ProjectName" class="control-label"></label>
+                <input asp-for="ProjectName" class="form-control" />
+                <span class="text-danger" asp-validation-for="ProjectName"></span>
+            </div>
+            <div class="form-group m-3">
+                <label asp-for="GroupMeetingLeadName" class="control-label"></label>
+                <input asp-for="GroupMeetingLeadName" class="form-control" />
+                <span class="text-danger" asp-validation-for="GroupMeetingLeadName"></span>
+            </div>
+            <div class="form-group m-3">
+                <label asp-for="TeamLeadName" class="control-label"></label>
+                <input asp-for="TeamLeadName" class="form-control" />
+                <span class="text-danger" asp-validation-for="TeamLeadName"></span>
+            </div>
+            <div class="form-group m-3">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span class="text-danger" asp-validation-for="Description"></span>
+            </div>
+            <div class="form-group m-3">
+                <label asp-for="GroupMeetingDate" class="control-label"></label>
+                <input asp-for="GroupMeetingDate" class="form-control" />
+                <span class="text-danger" asp-validation-for="GroupMeetingDate"></span>
+            </div>
+@*             <div class="form-group m-3">
+                <label asp-for="GroupMeetingMode" class="control-label"></label>
+                <select asp-for="GroupMeetingMode" class="form-control">
+                    <option value="">Select Mode</option>
+                    <option value="Online">Online</option>
+                    <option value="In-Person">In-Person</option>
+                    <option value="Hybrid">Hybrid</option>
+                </select>
+            </div> *@
+            <div class="form-group m-3">
+                <label asp-for="GroupMeetingMode" class="control-label"></label>
+                <select asp-for="GroupMeetingMode" class="form-control">
+                    <option value="">Select Mode</option>
+                    @foreach (var mode in ViewBag.GroupMeetingModes)
+                    {
+                        <option value="@mode.Mode">@mode.Mode</option>
+                    }
+                </select>
+                <span asp-validation-for="GroupMeetingMode" class="text-danger"></span>
+            </div>
+            <div class="form-group m-3">
+                <input type="submit" value="Create Meeting" class="btn btn-success btn-sm" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+        <!-- Additional content or functionality -->
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back To Home</a>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.11/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            
+            $("#addGroupMeetingForm").submit(function (event) {
+                debugger;
+                event.preventDefault();
+
+                if ($(this).valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("AddGroupMeeting", "GroupMeeting")',
+                        data: $(this).serialize(),
+                        success: function (response) {
+                            alert("Group meeting added successfully!");
+                            window.location.href = '@Url.Action("Index", "GroupMeeting")';
+                        },
+                        error: function (xhr, status, error) {
+                            alert("An error occurred while adding the group meeting: " + error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

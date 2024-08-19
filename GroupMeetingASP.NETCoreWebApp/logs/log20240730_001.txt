@@ -1,0 +1,5 @@
+2024-07-30 02:11:32.847 +05:00 [INF] User logged in: abmaalik4567@gmail.com
+2024-07-30 02:11:32.847 +05:00 [INF] User logged in: abmaalik4567@gmail.com
+2024-07-30 02:14:03.454 +05:00 [INF] User signed up: GroupMeetingASP.NETCoreWebApp.Models.RegisterUser
+2024-07-30 02:15:14.014 +05:00 [INF] User logged in: abmaalik4567@gmail.com
+2024-07-30 02:16:11.896 +05:00 [WRN] Failed login attempt: abmaalik4567@gmail.com

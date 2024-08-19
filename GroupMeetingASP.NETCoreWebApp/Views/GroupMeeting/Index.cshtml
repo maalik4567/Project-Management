@@ -1,0 +1,72 @@
+﻿@model IEnumerable<GroupMeetingASP.NETCoreWebApp.Models.GroupMeeting>
+
+@{
+    ViewData["Title"] = "Index";
+    var currentUser = ViewBag.CurrentUser as GroupMeetingASP.NETCoreWebApp.Models.RegisterUser;
+}
+
+<h4>Group Meeting Web App</h4>
+<hr />
+@if (currentUser != null)
+{
+    <h4>Welcome, @currentUser.UserName (@currentUser.Email)</h4>
+}
+<h4>
+    <a asp-controller="GroupMeeting" asp-action="AddGroupMeeting" class="btn btn-primary">Add Group Meeting</a>
+</h4>
+<div class="table-container">
+    <table id="groupMeetingsTable" class="table table-striped table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Group Lead Name</th>
+                <th>Team Lead Name</th>
+                <th>Description</th>
+                <th>Meeting Date</th>
+                <th>Meeting Mode</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => item.ProjectName)</td>
+                    <td>@Html.DisplayFor(model => item.GroupMeetingLeadName)</td>
+                    <td>@Html.DisplayFor(model => item.TeamLeadName)</td>
+                    <td>@Html.DisplayFor(model => item.Description)</td>
+                    <td>@Html.DisplayFor(model => item.GroupMeetingDate)</td>
+                    <td>
+                        @(string.IsNullOrWhiteSpace(item.GroupMeetingMode) ? "-" : Html.DisplayFor(model => item.GroupMeetingMode))
+                    </td>
+                    <td>
+                        <a asp-action="EditMeeting" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a> |
+                        <a asp-action="DeleteMeeting" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#groupMeetingsTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "responsive": true,
+                "language": {
+                    "emptyTable": "No group meetings available"
+                }
+            });
+        });
+    </script>
+}

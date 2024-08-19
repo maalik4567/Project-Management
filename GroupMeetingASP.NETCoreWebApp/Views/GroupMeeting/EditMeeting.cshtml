@@ -1,0 +1,100 @@
+﻿@model GroupMeetingASP.NETCoreWebApp.Models.GroupMeeting
+@{
+    ViewData["Title"] = "EditMeeting";
+}
+<h4>Update the Meeting</h4>
+<div class="row">
+    <div class="col-md-4">
+        <form id="editmeeting" asp-action="EditMeeting" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="ProjectName" class="control-label"></label>
+                <input asp-for="ProjectName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupMeetingLeadName" class="control-label"></label>
+                <input asp-for="GroupMeetingLeadName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamLeadName" class="control-label"></label>
+                <input asp-for="TeamLeadName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupMeetingDate" class="control-label"></label>
+                <input asp-for="GroupMeetingDate" class="form-control" />
+            </div>
+            <div class="form-group m-3">
+                <label asp-for="GroupMeetingMode" class="control-lable"></label>
+                <select asp-for="GroupMeetingMode" class="form-control">
+                    <option value="">Select Mode</option>
+                    <option value="Online">Online</option>
+                    <option value="In-Person">In-Person</option>
+                    <option value="Hybrid">Hybrid</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#confirmModal">Edit Meeting</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back To Home</a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirm Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update this meeting?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmBtn">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.11/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#confirmBtn").click(function () {
+                if ($("#editmeeting").valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("EditMeeting", "GroupMeeting")',
+                        data: $("#editmeeting").serialize(),
+                        success: function (response) {
+                            alert("Updated Successfully");
+                            window.location.href = '@Url.Action("Index", "GroupMeeting")';
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Error: " + error);
+                        }
+                    });
+                }
+                $('#confirmModal').modal('hide');
+            });
+        });
+    </script>
+}
